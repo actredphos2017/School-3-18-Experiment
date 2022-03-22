@@ -1,15 +1,16 @@
 #include <iostream>
-#include "include/list.h"
+#include "include/link.h"
 
 #if 1
 
 int main(){
-    list a(isHead);
+    Link a(isHead);
     for(ElemType i = 0; i < 12; i ++)
         a.insert(i,0);
     std::cout << a;
     a.usdown();
     std::cout << a;
+    return 0;
 }
 
 #else
@@ -19,7 +20,7 @@ int main(){
 int main(){
     Location loc;
     ElemType data;
-    list a(isHead);
+    Link a(isHead);
     char* cmd;
     cmd = new char[10];
     while(1){
@@ -66,11 +67,11 @@ int main(){
             case hash_compile_time("exit"):
                 return 0;
             default:
-                std::cout << "Unknown command! Enter \"help\" to list the command you can use!" << std::endl;
+                std::cout << "Unknown command! Enter \"help\" to Link the command you can use!" << std::endl;
                 break;
         }
     }
-    
+    return 0;
 }
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef __LIST_H__
-#define __LIST_H__
+#ifndef __LINK_H__
+#define __LINK_H__
 
 #include <iostream>
 
@@ -8,14 +8,14 @@
 #define Tail -1
 typedef int ElemType;
 typedef int Location;
-class list{
+class Link{
     private:
         bool ifhead = false;
         ElemType Data;
-        list* next = NULL;
+        Link* next = NULL;
     public:
         //链表头初始化
-        list(bool _ifhead = false){
+        Link(bool _ifhead = false){
             ifhead = _ifhead;
         }
 
@@ -26,7 +26,7 @@ class list{
 
         //获取某个节点的数据
         ElemType read(Location _loc){
-            list* p = this;
+            Link* p = this;
             while(p && _loc--)
                 p = p->next;
             return p->Data;
@@ -38,7 +38,7 @@ class list{
                 throw("Error! This is not a head point!\n");
                 return -1;
             }
-            list* p = this->next;
+            Link* p = this->next;
             int n = 0;
             while(p){
                 p = p->next;
@@ -48,21 +48,21 @@ class list{
         }
 
         //返回单个节点的复制
-        list scopy(){
-            list temp;
+        Link scopy(){
+            Link temp;
             temp = *this;
             return temp;
         }
 
         //函数返回该链表的复制
-        list copy(){
+        Link copy(){
             if(!ifhead){
                 throw("Error! This is not a head point!\n");
                 exit(0);
             }
-            list head(isHead), *newp = &head, *oldp = this->next;
+            Link head(isHead), *newp = &head, *oldp = this->next;
             while(oldp){
-                newp->next = new list;
+                newp->next = new Link;
                 *(newp->next) = oldp->scopy();
                 oldp = oldp->next;
                 newp = newp->next;
@@ -72,8 +72,8 @@ class list{
 
         //往链表中插入元素 *_loc 为下标* *_loc = Tail 表示尾插*
         void insert(ElemType _data, Location _loc){
-            list* p = this;
-            list *temp = new list;
+            Link* p = this;
+            Link *temp = new Link;
             temp->Data = _data;
             if(_loc == Tail){
                 while(p->next)
@@ -96,8 +96,8 @@ class list{
 
         //删除链表元素 *_loc 为下标*
         void pop(Location _loc){
-            list* p = this;
-            list* _p;
+            Link* p = this;
+            Link* _p;
             while(_loc --){
                 if(p->next)
                     p = p->next;
@@ -112,7 +112,7 @@ class list{
         }
 
         //顺序遍历输出链表
-        friend std::ostream& operator<<(std::ostream &o, const list _l);
+        friend std::ostream& operator<<(std::ostream &o, const Link _l);
 
         //删除节点元素（但不删除头节点）
         void del(){
@@ -120,7 +120,7 @@ class list{
                 throw("Error! This is not a head point!\n");
                 exit(0);
             }
-            list *p[2];
+            Link *p[2];
             int k = 0;
             p[1] = this;
             p[0] = this->next;
@@ -139,11 +139,11 @@ class list{
                 return;
             }
             ElemType _data;
-            list *temp, *p = this;
+            Link *temp, *p = this;
             while(scanf("%d",&_data) != EOF){
                 if(_data < 0)
                     break;
-                temp = new list;
+                temp = new Link;
                 temp->Data = _data;
                 temp->next = NULL;
                 p->next = temp;
@@ -157,7 +157,7 @@ class list{
                 throw("Error! This is not a head point!\n");
                 exit(0);
             }
-            list *newlist = new list[num()], *p = this->next;
+            Link *newlist = new Link[num()], *p = this->next;
             int k = 0;
             while(p){
                 newlist[k] = *p;
@@ -172,25 +172,25 @@ class list{
         }
 
         //重驻运算符+=实现两条链表相连
-        void operator+=(const list temp){
-            list tempcpy = temp;
-            list cpy = tempcpy.copy();
-            list* p = this;
+        void operator+=(const Link temp){
+            Link tempcpy = temp;
+            Link cpy = tempcpy.copy();
+            Link* p = this;
             while(p->next)
                 p = p->next;
             p->next = cpy.next;
         }
 
         //重驻运算符+实现两条链表相连
-        const list operator+(const list temp){
-            list result = copy();
+        const Link operator+(const Link temp){
+            Link result = copy();
             result += temp;
             return result;
         }
 };
 
-std::ostream& operator<<(std::ostream &o, const list _l){
-    list l = _l, *p = l.next;
+std::ostream& operator<<(std::ostream &o, const Link _l){
+    Link l = _l, *p = l.next;
     if(!p){
         std::cout << "NULL" << std::endl;
         return o;
